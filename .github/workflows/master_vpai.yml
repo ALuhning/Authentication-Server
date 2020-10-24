@@ -31,5 +31,5 @@ jobs:
       with:
         app-name: 'vpai'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_b676c6d06f75489692a4947a0e6468cc }}
+        publish-profile: ${{ secrets.AZURE_CREDENTIALS}}
         package: .

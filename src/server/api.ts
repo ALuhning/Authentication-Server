@@ -3,7 +3,7 @@ import koa from "koa";
 import Router from "koa-router";
 import {UserAuth} from "@textile/hub"
 
-import { getAPISig } from './hub-helpers';
+import { getAPISig, getAppAPISig } from './hub-helpers';
 
 
 /**
@@ -28,6 +28,22 @@ api.get( '/userauth', async (ctx: koa.Context, next: () => Promise<any>) => {
   const credentials: UserAuth = {
     ...auth,
     key: process.env.USER_API_KEY,
+  };
+  
+  /** Return the auth in a JSON object */
+  ctx.body = credentials
+  
+  await next();
+});
+
+api.get( '/appauth', async (ctx: koa.Context, next: () => Promise<any>) => {
+  /** Get API authorization for the user */
+  const auth = await getAppAPISig()
+
+  /** Include the token in the auth payload */
+  const credentials: UserAuth = {
+    ...auth,
+    key: process.env.ORG_API_KEY,
   };
   
   /** Return the auth in a JSON object */

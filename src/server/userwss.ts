@@ -102,7 +102,7 @@ const userwss = route.all('/ws/userauth', (ctx) => {
           
           /** Return the result to the client */
           ctx.websocket.send(JSON.stringify(returnData))
-          ctx.websocket.close();
+      //    ctx.websocket.close();
         
           break;
         }

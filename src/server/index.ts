@@ -1,6 +1,3 @@
-/** Provides nodejs access to a global Websocket value, required by Hub API */
-;(global as any).WebSocket = require('isomorphic-ws')
-
 import koa from "koa";
 import Router from "koa-router";
 import logger from "koa-logger";
@@ -8,7 +5,8 @@ import json from "koa-json";
 import bodyParser from "koa-bodyparser";
 import serve from "koa-static";
 import websockify from "koa-websocket";
-import cors from "@koa/cors";
+//import cors from "@koa/cors";
+import { DefaultState, Context } from 'koa'
 
 import { createReadStream } from 'fs';
 import dotenv from "dotenv";
@@ -37,20 +35,20 @@ app.use( logger() );
 app.use( bodyParser() );
 
 /* Not safe in production */
-app.use(cors());
+//app.use(cors());
 
 app.use(serve(__dirname + '/client'));
 
 /**
  * Start HTTP Routes
  */
-const router = new Router();
+const router = new Router<DefaultState, Context>();
 app.use( router.routes() ).use( router.allowedMethods() );
 
 /**
  * Serve index.html
  */
-router.get( '/', async (ctx: koa.Context, next: () => Promise<any>) => {
+router.get( '/', async (ctx: Context, next: () => Promise<any>) => {
     ctx.type = 'text/html; charset=utf-8';
     ctx.body = createReadStream(__dirname + '/client/index.html');
     await next();

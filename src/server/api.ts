@@ -1,6 +1,7 @@
 /** Import our server libraries */
 import koa from "koa";
 import Router from "koa-router";
+import { DefaultState, Context } from 'koa'
 import {UserAuth} from "@textile/hub"
 
 import { getAPISig, getAppAPISig } from './hub-helpers';
@@ -11,7 +12,7 @@ import { getAPISig, getAppAPISig } from './hub-helpers';
  * 
  * All prefixed with `/api/`
  */
-const api = new Router({
+const api = new Router<DefaultState, Context>({
   prefix: '/api'
 });
 
@@ -20,7 +21,7 @@ const api = new Router({
  * 
  * This endpoint will provide authorization for _any_ user.
  */
-api.get( '/userauth', async (ctx: koa.Context, next: () => Promise<any>) => {
+api.get( '/userauth', async (ctx: Context, next: () => Promise<any>) => {
   /** Get API authorization for the user */
   const auth = await getAPISig()
 
@@ -36,7 +37,7 @@ api.get( '/userauth', async (ctx: koa.Context, next: () => Promise<any>) => {
   await next();
 });
 
-api.get( '/appauth', async (ctx: koa.Context, next: () => Promise<any>) => {
+api.get( '/appauth', async (ctx: Context, next: () => Promise<any>) => {
   /** Get API authorization for the user */
   const auth = await getAppAPISig()
 
@@ -52,7 +53,7 @@ api.get( '/appauth', async (ctx: koa.Context, next: () => Promise<any>) => {
   await next();
 });
 
-api.get( '/enckey', async (ctx: koa.Context, next: () => Promise<any>) => {
+api.get( '/enckey', async (ctx: Context, next: () => Promise<any>) => {
     /** Get API authorization for the user */
     const auth = await getAPISig()
   

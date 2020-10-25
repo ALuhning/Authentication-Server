@@ -34,7 +34,7 @@ const appwss = route.all('/ws/appauth', (ctx) => {
   ctx.websocket.on('message', async (msg) => {
     try {
       /** All messages from client contain {type: string} */
-      const data = JSON.parse(msg);
+      const data = JSON.parse(msg.toString());
       switch (data.type) {
         case 'token': {
           /** A new token request will contain the user's public key */
@@ -66,7 +66,7 @@ const appwss = route.all('/ws/appauth', (ctx) => {
               /** Give client a reasonable timeout to respond to the challenge */
               setTimeout(() => {
                 reject()
-              }, 3000);
+              }, 10000);
 
             })
           })

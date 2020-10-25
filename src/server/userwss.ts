@@ -29,12 +29,13 @@ const UserDB: {[key: string]: UserModel} = {}
  * - The server can maintain a record of: user public key and user token in list of users.
  */
 const userwss = route.all('/ws/userauth', (ctx) => {
+  
   /** Emittery allows us to wait for the challenge response event */
   const emitter = new Emittery();
   ctx.websocket.on('message', async (msg) => {
     try {
       /** All messages from client contain {type: string} */
-      const data = JSON.parse(msg);
+      const data = JSON.parse(msg.toString());
       switch (data.type) {
         case 'token': {
           /** A new token request will contain the user's public key */
@@ -60,13 +61,14 @@ const userwss = route.all('/ws/userauth', (ctx) => {
               }))
               /** Wait for the challenge event from our event emitter */
               emitter.on('challenge', (sig) => {
+                console.log('sig ', sig)
                 /** Resolve the promise with the challenge response */
                 resolve(Buffer.from(sig))
               });
               /** Give client a reasonable timeout to respond to the challenge */
               setTimeout(() => {
                 reject()
-              }, 3000);
+              }, 10000);
 
             })
           })
@@ -102,8 +104,8 @@ const userwss = route.all('/ws/userauth', (ctx) => {
           
           /** Return the result to the client */
           ctx.websocket.send(JSON.stringify(returnData))
-      //    ctx.websocket.close();
-        //
+          ctx.websocket.close();
+        
           break;
         }
         /** The second type is a challenge response */

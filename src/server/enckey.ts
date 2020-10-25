@@ -11,7 +11,7 @@ const enckey = route.all('/ws/enckey', (ctx) => {
   ctx.websocket.on('message', async (msg) => {
     try {
       /** All messages from client contain {type: string} */
-      const data = JSON.parse(msg);
+      const data = JSON.parse(msg.toString());
       switch (data.type) {
         case 'enckey': {
           /** A new token request will contain the user's public key */

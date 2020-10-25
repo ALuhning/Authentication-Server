@@ -5,6 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "clean": "rimraf dist",
+    "start": "node dist/server/index.js",
     "start:server": "npm run build:server && dev:server",
     "build:server": "tsc -p src/server/",
     "dev:server": "node dist/server/index.js",
@@ -21,6 +22,10 @@
     "@koa/cors": "^3.1.0",
     "@textile/hub": "^1.1.1",
     "@textile/threads-core": "^0.3.1",
+    "@types/koa-route": "^3.2.4",
+    "@types/koa-static": "^4.0.1",
+    "@types/koa-websocket": "^5.0.4",
+    "@types/koa__cors": "^3.0.2",
     "dotenv": "^8.2.0",
     "emittery": "^0.7.2",
     "isomorphic-ws": "^4.0.1",

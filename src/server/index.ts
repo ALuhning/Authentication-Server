@@ -25,7 +25,7 @@ if (
   process.exit(1);
 }
 
-const PORT = parseInt(process.env.PORT, 10) || 443;
+const PORT = parseInt(process.env.PORT, 10) || 3001;
 
 const app = websockify(new koa());
 
